@@ -111,23 +111,23 @@ export function HorizontalTimelineBlock({ task, onUpdate, onDelete, onEdit, cont
       onMouseDown={handleDragStart}
     >
       <div className={cn(
-        "absolute inset-0 rounded-md border-t-4 p-2 transition-all flex flex-col bg-inherit border-inherit text-inherit",
-        "group-hover:min-w-[160px] group-hover:h-auto group-hover:-m-2 group-hover:p-4 group-hover:z-50 group-hover:shadow-xl"
+        "absolute inset-0 rounded-md border-t-[3px] sm:border-t-4 p-1.5 sm:p-2 transition-all flex flex-col bg-inherit border-inherit text-inherit",
+        "group-hover:min-w-[160px] group-hover:h-auto group-hover:-m-2 group-hover:p-3 sm:group-hover:p-4 group-hover:z-50 group-hover:shadow-xl"
       )}>
         <div className="flex items-start justify-between pointer-events-auto">
-          <h4 className={cn("text-[11px] font-bold leading-tight group-hover:whitespace-normal", 
+          <h4 className={cn("text-[9px] sm:text-[11px] font-bold leading-tight group-hover:whitespace-normal", 
              task.completed ? "line-through opacity-50" : "",
-             width < 60 ? "truncate" : "line-clamp-2"
+             width < 40 ? "truncate" : "line-clamp-2"
           )}>
             {task.name}
           </h4>
         </div>
         
         <div className={cn(
-          "mt-auto pt-1 items-center gap-1 text-[10px] opacity-80",
-           width < 60 ? "hidden group-hover:flex" : "flex"
+          "mt-auto pt-1 items-center gap-0.5 sm:gap-1 text-[8px] sm:text-[10px] opacity-80",
+           width < 40 ? "hidden group-hover:flex" : "flex"
         )}>
-          <Clock className="w-3 h-3 shrink-0" />
+          <Clock className="w-2.5 h-2.5 sm:w-3 sm:h-3 shrink-0" />
           <span className="whitespace-nowrap">{task.startTime} ({task.duration}m)</span>
         </div>
 

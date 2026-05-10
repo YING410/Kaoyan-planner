@@ -52,9 +52,9 @@ export default function App() {
   ];
 
   return (
-    <div className="flex h-screen bg-slate-50 text-slate-900 font-sans p-6 gap-6 overflow-hidden">
-      {/* Sidebar */}
-      <aside className="w-64 bg-white rounded-3xl border border-slate-200 p-5 shadow-sm flex flex-col z-40 shrink-0">
+    <div className="flex flex-col md:flex-row h-[100dvh] bg-slate-50 text-slate-900 font-sans p-2 sm:p-4 md:p-6 gap-2 sm:gap-4 md:gap-6 overflow-hidden">
+      {/* Sidebar (Desktop Only) */}
+      <aside className="hidden md:flex w-64 bg-white rounded-3xl border border-slate-200 p-5 shadow-sm flex-col z-40 shrink-0">
         <div className="flex items-center gap-3 mb-6">
           <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-200 shrink-0">
             <Trophy className="w-6 h-6 text-white" />
@@ -104,28 +104,40 @@ export default function App() {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col gap-6 relative overflow-hidden">
+      <main className="flex-1 flex flex-col gap-2 sm:gap-4 md:gap-6 relative overflow-hidden">
         {/* Header */}
-        <header className="bg-white rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between p-4 z-30 shrink-0">
-          <div className="flex items-center gap-4">
-            <h2 className="text-lg font-bold">
+        <header className="bg-white rounded-2xl md:rounded-3xl border border-slate-200 shadow-sm flex items-center justify-between p-3 md:p-4 z-30 shrink-0">
+          <div className="flex items-center gap-2 md:gap-4">
+            <h2 className="text-base md:text-lg font-bold">
               {viewMode === 'day' && "日程规划"}
               {viewMode === 'week' && "周进度总览"}
               {viewMode === 'stats' && "学习数据分析"}
             </h2>
-            <div className="h-4 w-px bg-slate-200" />
-            <span className="text-sm text-slate-500 font-medium">
+            <div className="hidden sm:block h-4 w-px bg-slate-200" />
+            <span className="hidden sm:inline text-xs md:text-sm text-slate-500 font-medium">
               {format(selectedDate, 'yyyy年MM月dd日 EEEE', { locale: zhCN })}
             </span>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 md:gap-3">
+            <div className="sm:hidden text-right mr-2 leading-none">
+               <p className="text-[9px] text-slate-400 font-bold uppercase tracking-wider mb-0.5">今日评分</p>
+               <p className="text-base font-black text-emerald-500 leading-none">
+                 {scores.find(s => s.date === todayStr)?.score || 0}
+               </p>
+            </div>
             <button 
               onClick={() => handleOpenTaskDialog()}
-              className="flex items-center gap-2 bg-slate-900 text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-slate-800 transition-all shadow-lg active:scale-95"
+              className="flex items-center gap-1 md:gap-2 bg-slate-900 text-white px-3 md:px-4 py-1.5 md:py-2 rounded-xl text-xs md:text-sm font-medium hover:bg-slate-800 transition-all shadow-lg active:scale-95"
             >
               <Plus className="w-4 h-4" />
-              <span>新建日程</span>
+              <span className="hidden sm:inline">新建日程</span>
+            </button>
+            <button 
+              onClick={() => setIsSettingsOpen(true)}
+              className="md:hidden flex items-center justify-center p-1.5 rounded-xl border border-slate-200 text-slate-500 hover:bg-slate-50 active:bg-slate-100"
+            >
+              <Settings className="w-4 h-4" />
             </button>
           </div>
         </header>
@@ -139,15 +151,15 @@ export default function App() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="max-w-4xl mx-auto h-full flex flex-col pt-8"
+                className="max-w-4xl mx-auto h-full flex flex-col pt-2 sm:pt-4 md:pt-8 w-full"
               >
-                <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 mb-8 flex flex-col min-h-[300px]">
-                  <div className="flex justify-between items-center mb-8">
+                <div className="bg-white rounded-2xl md:rounded-3xl border border-slate-200 shadow-sm p-4 md:p-6 mb-8 flex flex-col min-h-[300px]">
+                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4 md:mb-8">
                     <div className="flex items-center gap-2">
-                       <CheckCircle2 className="w-6 h-6 text-blue-600" />
-                       <h3 className="font-bold text-lg text-slate-900">今日学习任务时间轴</h3>
+                       <CheckCircle2 className="w-5 h-5 md:w-6 md:h-6 text-blue-600" />
+                       <h3 className="font-bold text-base md:text-lg text-slate-900">今日学习任务时间轴</h3>
                     </div>
-                    <span className="text-xs font-medium text-slate-500 bg-slate-100 px-3 py-1 rounded-full">
+                    <span className="text-[10px] md:text-xs font-medium text-slate-500 bg-slate-100 px-2 md:px-3 py-1 rounded-full whitespace-nowrap">
                       横向拖拽调节时刻 / 侧边缘拉伸时长
                     </span>
                   </div>
@@ -172,17 +184,17 @@ export default function App() {
                 exit={{ opacity: 0, scale: 0.98 }}
                 className="h-full flex flex-col pb-8"
               >
-                <div className="flex flex-col bg-white rounded-3xl border border-slate-200 shadow-sm p-4 overflow-y-auto flex-1 gap-2 min-h-[500px]">
-                  <div className="flex justify-between items-center mb-4 px-2">
-                     <h3 className="font-bold text-lg text-slate-900">本周学习分布回顾</h3>
+                <div className="flex flex-col bg-white rounded-2xl md:rounded-3xl border border-slate-200 shadow-sm p-3 md:p-4 overflow-y-auto flex-1 gap-2 min-h-[400px]">
+                  <div className="flex justify-between items-center mb-2 md:mb-4 px-2">
+                     <h3 className="font-bold text-base md:text-lg text-slate-900">本周学习分布回顾</h3>
                   </div>
                   {weekDays.map((date) => (
-                    <div key={date.toISOString()} className="flex items-stretch gap-4 bg-slate-50 border border-slate-100 rounded-2xl p-2 relative group hover:bg-slate-100/50 transition-colors">
-                       <div className="w-20 shrink-0 flex flex-col items-center justify-center border-r border-slate-200/50 pr-4">
-                          <span className={cn("text-xs font-bold uppercase", isSameDay(date, new Date()) ? "text-blue-600" : "text-slate-400")}>
+                    <div key={date.toISOString()} className="flex items-stretch gap-2 md:gap-4 bg-slate-50 border border-slate-100 rounded-xl md:rounded-2xl p-2 relative group hover:bg-slate-100/50 transition-colors">
+                       <div className="w-12 md:w-20 shrink-0 flex flex-col items-center justify-center border-r border-slate-200/50 pr-2 md:pr-4">
+                          <span className={cn("text-[10px] md:text-xs font-bold uppercase", isSameDay(date, new Date()) ? "text-blue-600" : "text-slate-400")}>
                             {format(date, 'eee', { locale: zhCN })}
                           </span>
-                          <span className={cn("text-lg font-black", isSameDay(date, new Date()) ? "text-blue-600" : "text-slate-700")}>
+                          <span className={cn("text-base md:text-lg font-black", isSameDay(date, new Date()) ? "text-blue-600" : "text-slate-700")}>
                             {format(date, 'dd')}
                           </span>
                        </div>
@@ -229,6 +241,25 @@ export default function App() {
         isOpen={isSettingsOpen}
         onClose={() => setIsSettingsOpen(false)}
       />
+
+      {/* Mobile Navigation */}
+      <nav className="md:hidden shrink-0 bg-white rounded-2xl border border-slate-200 shadow-sm p-1 flex justify-around items-center z-40">
+        {navItems.map((item) => (
+          <button
+            key={item.id}
+            onClick={() => setViewMode(item.id)}
+            className={cn(
+              "flex flex-col items-center justify-center flex-1 py-1.5 rounded-xl transition-all duration-200",
+              viewMode === item.id 
+                ? "bg-blue-50 text-blue-600" 
+                : "text-slate-400 hover:bg-slate-50 hover:text-slate-600"
+            )}
+          >
+            <item.icon className="w-5 h-5 mb-0.5 shrink-0" />
+            <span className="text-[10px] font-bold">{item.label}</span>
+          </button>
+        ))}
+      </nav>
     </div>
   );
 }

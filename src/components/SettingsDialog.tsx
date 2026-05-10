@@ -15,16 +15,16 @@ export function SettingsDialog({ isOpen, onClose }: SettingsDialogProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden animate-in zoom-in-95 duration-200">
-        <div className="flex items-center justify-between p-5 border-b border-slate-100">
-          <h3 className="text-lg font-bold text-slate-900">设置中心与评分规则</h3>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/40 backdrop-blur-sm animate-in fade-in duration-200">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden max-h-[95dvh] flex flex-col animate-in zoom-in-95 duration-200">
+        <div className="flex items-center justify-between p-4 md:p-5 border-b border-slate-100 shrink-0">
+          <h3 className="text-base md:text-lg font-bold text-slate-900">设置中心与评分规则</h3>
           <button onClick={onClose} className="p-2 hover:bg-slate-100 rounded-full transition-colors">
             <X className="w-5 h-5 text-slate-500" />
           </button>
         </div>
 
-        <div className="p-6 space-y-6 max-h-[70vh] overflow-y-auto">
+        <div className="p-4 md:p-6 space-y-6 overflow-y-auto min-h-0">
           <section className="space-y-3">
             <div className="flex items-center gap-2 text-blue-600 font-bold text-sm uppercase tracking-wider">
               <CheckCircle className="w-4 h-4" />

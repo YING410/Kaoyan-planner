@@ -46,8 +46,9 @@ export function HorizontalTimelineDay({
 
   // Use 24 hours
   const hours = Array.from({ length: 24 }, (_, i) => i);
-  // We can group hours by 3 for labels to avoid clutter
-  const labeledHours = hours.filter(h => h % 3 === 0);
+  // We can group hours by 4 for labels to avoid clutter on mobile, or 3 for desktop
+  const labelInterval = typeof window !== 'undefined' && window.innerWidth < 640 ? 4 : 3;
+  const labeledHours = hours.filter(h => h % labelInterval === 0);
 
   const sortedTasks = [...tasks].sort((a, b) => timeToMinutes(a.startTime) - timeToMinutes(b.startTime));
 
@@ -56,12 +57,12 @@ export function HorizontalTimelineDay({
       <div 
         ref={containerRef}
         className={cn(
-          "relative flex-1 w-full rounded-2xl flex items-center overflow-visible",
-          compact ? "min-h-[80px]" : "min-h-[160px]",
+          "relative flex-1 w-full rounded-xl md:rounded-2xl flex items-center overflow-visible",
+          compact ? "min-h-[50px] md:min-h-[80px]" : "min-h-[120px] md:min-h-[160px]",
           isToday && !compact ? "bg-blue-50/30 border border-blue-100" : (compact ? "bg-white/50" : "bg-slate-50 border border-slate-100")
         )}
       >
-        {/* Background Grid Lines rendering every 3 hours */}
+        {/* Background Grid Lines rendering every 3/4 hours */}
         <div className="absolute inset-0 flex">
           {hours.map((h) => (
              <div 
